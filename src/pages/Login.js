@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { signin } from "../helpers/auth";
+import '../bulma.min.css';
 
 export default class Login extends Component {
     constructor(props) 
@@ -36,19 +37,21 @@ export default class Login extends Component {
     render() 
     {
         return (
-            <div>
+            <div className="container">
                 <form autoComplete="off" onSubmit={this.handleSubmit}>
-                    <h1>Login to <Link to="/">Tweeter</Link></h1>
+                    <h1 className="is-size-2">Login to <Link to="/">Tweeter</Link></h1>
                     <p>
                         Fill in the form below to login to your account.
                     </p>
 
-                    <div id="email-box">
-                        <input placeholder="E-mail" name="email" type="email" onChange={this.handleChange} value={this.state.email} />
-                    </div>
-
-                    <div id="password-box">
-                        <input placeholder="Password" name="password" type="password" onChange={this.handleChange} value={this.state.password} />
+                    <div className="field">
+                        <div className="control">
+                            <input className="input" placeholder="E-mail" name="email" type="email" onChange={this.handleChange} value={this.state.email} />
+                        </div>
+                        
+                        <div className="contrl">
+                            <input className="input" placeholder="Password" name="password" type="password" onChange={this.handleChange} value={this.state.password} />
+                        </div>
                     </div>
 
                     <div>
