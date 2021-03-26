@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { signin } from "../helpers/auth";
 import { auth, db } from "../services/firebase";
+import '../bulma.min.css';
 
 export default class Feed extends Component 
 {
@@ -63,21 +64,31 @@ export default class Feed extends Component
     render()
     {
         return (
-            <div>
+            <div className="container">
+                <div className="container">
+                  <h1 className="is-size-1 is-text-centered">Tweeter</h1>
+                </div>
                 <div className="tweets">
                     {this.state.chats.map(chat => {
                         let date = new Date(chat.timestamp);
+                        let time = (date.getHours() % 12) + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes() + ' ' + (date.getHours()>12?'PM':'AM');
                         date = date.toString();
-                        return <p key={chat.timestamp}>{date}: <strong>{chat.content}</strong></p>
+                        return <p key={chat.timestamp}>{time}: <strong>{chat.content}</strong></p>
                     })}
                 </div>
                 <form onSubmit={this.handleSubmit}>
-                    <input onChange={this.handleChange} value={this.state.content}></input>
-                    { this.state.error ? <p>{this.state.writeError}</p> : null }
-                    <button type="submit">Send</button>
+                    { this.state.error ? <p>{this.state.writeError}</p> : null}
+                    <div className="field has-addons is-fullwidth">
+                      <div className="control is-expanded">
+                        <input class="input" type="text" onChange={this.handleChange} value={this.state.content}></input>
+                      </div>
+                      <div className="control">
+                        <button type="submiit" className="button">Send</button>
+                      </div>
+                    </div>
                 </form>
                 <div>
-                    Login in as: <strong>{this.state.user.email}</strong>
+                    Logged in as: <strong>{this.state.user.email}</strong>
                 </div>
             </div>
         );
