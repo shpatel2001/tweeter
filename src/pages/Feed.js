@@ -5,36 +5,37 @@ import { auth, db } from "../services/firebase";
 
 export default class Feed extends Component 
 {
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
         this.state = {
-            user: auth().currentUser,
-            tweets: [],
-            content: '',
-            readError: null,
-            writeError: null,
-            loadingChats: false 
+          user: auth().currentUser,
+          chats: [],
+          content: '',
+          readError: null,
+          writeError: null,
+          loadingChats: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+        this.myRef = React.createRef();
+      }
 
-    async componentDidMount()
-    {
-        this.setState({ readError: null });
+    async componentDidMount() {
+        this.setState({ readError: null, loadingChats: true });
         try {
-            db.ref("tweeter-19786-default-rtdb").on("value", snapshot => {
-                let tweets = [];
-                snapshot.forEach((snap) => {
-                    tweets.push(snap.val());
-                });
-                this.setState({ tweets });
-            })
+          db.ref("chats").on("value", snapshot => {
+            let chats = [];
+            snapshot.forEach((snap) => {
+              chats.push(snap.val());
+            });
+            chats.sort(function (a, b) { return a.timestamp - b.timestamp })
+            this.setState({ chats });
+            this.setState({ loadingChats: false });
+          });
         } catch (error) {
-            this.setState({ readError: error.message });
+          this.setState({ readError: error.message, loadingChats: false });
         }
-    }
+      }
 
     handleChange(event)
     {
@@ -43,29 +44,31 @@ export default class Feed extends Component
         });
     }
 
-    async handleSubmit(event) 
-    {
+    async handleSubmit(event) {
         event.preventDefault();
         this.setState({ writeError: null });
+        const chatArea = this.myRef.current;
         try {
-            await db.ref("tweets").push({
-                content: this.state.content,
-                timestamp: Date.now(),
-                uid: this.state.user.uid 
-            });
-            this.setState({ content: '' });
+          await db.ref("chats").push({
+            content: this.state.content,
+            timestamp: Date.now(),
+            uid: this.state.user.uid
+          });
+          this.setState({ content: '' });
         } catch (error) {
-            this.setState({ writeError: error.message });
+          this.setState({ writeError: error.message });
         }
-    }
+      }
 
     render()
     {
         return (
             <div>
                 <div className="tweets">
-                    {this.state.tweets.map(tweet => {
-                        return <p key={tweet.timestamp}>{tweet.content}</p>
+                    {this.state.chats.map(chat => {
+                        let date = new Date(chat.timestamp);
+                        date = date.toString();
+                        return <p key={chat.timestamp}>{date}: <strong>{chat.content}</strong></p>
                     })}
                 </div>
                 <form onSubmit={this.handleSubmit}>
