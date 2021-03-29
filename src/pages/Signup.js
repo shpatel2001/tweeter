@@ -12,6 +12,7 @@ export default class SignUp extends Component
             error: null,
             email: '',
             password: '',
+            username: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,25 +37,36 @@ export default class SignUp extends Component
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <form onSubmit={this.handleSubmit}>
-                    <h1>Sign up for <Link to="/">Tweeter</Link>
+                    <h1 className="is-size-2">Sign up for <Link to="/">Tweeter</Link>
                     </h1>
 
-                    <div>
-                        <input placeholder="Email" name="email" type="email" onChange={this.handleChange} value={this.state.email}></input>
-                    </div>   
+                    <div className="field">
+                        <div className="control">
+                            <input placeholder="Username" name="uname" type="text" onChange={this.handleChange} value={this.state.username } className="input my-1"></input>
+                        </div>
 
-                    <div>
-                        <input placeholder="Password" name="password" type="password" onChange={this.handleChange} value={this.state.password}></input>
+                        <div className="control">
+                            <input placeholder="Email" name="email" type="email" onChange={this.handleChange} value={this.state.email} className="input my-1"></input>
+                        </div>   
+
+                        <div className="control">
+                            <input placeholder="Password" name="password" type="password" onChange={this.handleChange} value={this.state.password} className="input my-1"></input>
+                        </div>
                     </div>
 
-                    <div>
-                        {this.state.error ? <p>{this.state.error}</p> : null}
-                        <button type="submit">Sign up</button>
+                    { this.state.error ? (
+                    <div className="notification is-danger">
+                        { this.state.error ? <p>{ this.state.error }</p> : null }
                     </div>
-                    <hr></hr>
-                    <p>Already have an account? <Link to="/login">Login</Link></p>
+                    ) : null }
+
+                    <div className="has-text-right">
+                        <p>Already have an account? <Link to="/login">Login</Link></p>
+                        <button type="submit" className="button is-outlined is-rounded">Sign up</button>
+                    </div>
+
                 </form>
             </div>
         )

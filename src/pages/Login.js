@@ -38,7 +38,7 @@ export default class Login extends Component {
     {
         return (
             <div className="container">
-                <form autoComplete="off" onSubmit={this.handleSubmit}>
+                <form autoComplete="on" onSubmit={this.handleSubmit}>
                     <h1 className="is-size-2">Login to <Link to="/">Tweeter</Link></h1>
                     <p>
                         Fill in the form below to login to your account.
@@ -46,24 +46,24 @@ export default class Login extends Component {
 
                     <div className="field">
                         <div className="control">
-                            <input className="input" placeholder="E-mail" name="email" type="email" onChange={this.handleChange} value={this.state.email} />
+                            <input className="input my-1" placeholder="E-mail" name="email" type="email" onChange={this.handleChange} value={this.state.email} />
                         </div>
                         
-                        <div className="contrl">
-                            <input className="input" placeholder="Password" name="password" type="password" onChange={this.handleChange} value={this.state.password} />
+                        <div className="control">
+                            <input className="input my-1" placeholder="Password" name="password" type="password" onChange={this.handleChange} value={this.state.password} />
                         </div>
                     </div>
 
-                    <div>
-                        {this.state.error ? (
-                            <p>{this.state.error}</p>
-                        ) : null}
-                        <button type="submit">Login</button>
+                    {this.state.error ? (
+                    <div className="notification is-danger">
+                        { this.state.error ? <p>{ this.state.error }</p> : null }
                     </div>
-                    <hr />
-                    <p>
-                        Don't have an account? <Link to="/signup">Sign up</Link>
-                    </p>
+                    ) : null }
+
+                    <div className="has-text-right">
+                        <p>Don't have an account? <Link to="/signup">Sign up!</Link></p>
+                        <button type="submit" className="button is-outlined is-rounded">Login</button>
+                    </div>
                 </form>
             </div>
         );
