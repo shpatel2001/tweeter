@@ -16,6 +16,12 @@ export default class SignUp extends Component
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.clearError = this.clearError.bind(this);
+    }
+    
+    clearError()
+    {
+        this.setState({ error: '' })
     }
 
     handleChange(event) 
@@ -29,7 +35,11 @@ export default class SignUp extends Component
         event.preventDefault();
         this.setState({ error: '' });
         try {
-            await signup(this.state.email, this.state.password);
+            await signup(this.state.email, this.state.password)
+            .then(() => {
+                console.log("Signed up, now do something");
+                console.log("Maybe set their displayName to " + this.state.username);
+            });
         } catch (error) {
             this.setState({ error: error.message });
         }
@@ -44,7 +54,7 @@ export default class SignUp extends Component
 
                     <div className="field">
                         <div className="control">
-                            <input placeholder="Username" name="uname" type="text" onChange={this.handleChange} value={this.state.username } className="input my-1"></input>
+                            <input placeholder="Username" name="username" type="text" onChange={this.handleChange} value={this.state.username } className="input my-1"></input>
                         </div>
 
                         <div className="control">
@@ -58,6 +68,7 @@ export default class SignUp extends Component
 
                     { this.state.error ? (
                     <div className="notification is-danger">
+                        <button className="delete" onClick={ this.clearError }></button>
                         { this.state.error ? <p>{ this.state.error }</p> : null }
                     </div>
                     ) : null }

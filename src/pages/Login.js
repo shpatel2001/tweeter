@@ -14,6 +14,12 @@ export default class Login extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.clearError = this.clearError.bind(this);
+    }
+
+    clearError()
+    {
+        this.setState({ error: '' });
     }
 
     handleChange(event)
@@ -56,6 +62,7 @@ export default class Login extends Component {
 
                     {this.state.error ? (
                     <div className="notification is-danger">
+                        <button className="delete" onClick={ this.clearError }></button>
                         { this.state.error ? <p>{ this.state.error }</p> : null }
                     </div>
                     ) : null }
