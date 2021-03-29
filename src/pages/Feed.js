@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { signin, signout } from "../helpers/auth";
 import { auth, db } from "../services/firebase";
 import '../bulma.min.css';
+import { pageTitle } from "../components/pageComponents";
 
 export default class Feed extends Component 
 {
@@ -14,7 +15,7 @@ export default class Feed extends Component
           content: '',
           readError: null,
           writeError: null,
-          loadingChats: false
+          loadingChats: true
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,6 +31,7 @@ export default class Feed extends Component
               chats.push(snap.val());
             });
             chats.sort(function (a, b) { return a.timestamp - b.timestamp })
+            chats.reverse();
             this.setState({ chats });
             this.setState({ loadingChats: false });
           });
@@ -66,6 +68,7 @@ export default class Feed extends Component
         return (
             <div className="container">
                 <div className="container">
+                  <pageTitle />
                   <h1 className="is-size-1 is-text-centered">Tweeter</h1>
                 </div>
                 <div className="tweets">
