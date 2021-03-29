@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { signin } from "../helpers/auth";
+import { signin, signout } from "../helpers/auth";
 import { auth, db } from "../services/firebase";
 import '../bulma.min.css';
 
@@ -88,7 +88,8 @@ export default class Feed extends Component
                     </div>
                 </form>
                 <div>
-                    Logged in as: <strong>{this.state.user.email}</strong>
+                    <p>Logged in as: <strong>{this.state.user.email}</strong></p>
+                    <p><Link onClick={ () => signout() }>Sign out</Link></p>
                 </div>
             </div>
         );
