@@ -55,7 +55,8 @@ export default class Feed extends Component
           await db.ref("chats").push({
             content: this.state.content,
             timestamp: Date.now(),
-            uid: this.state.user.uid
+            uid: this.state.user.uid,
+            useremail: this.state.user.email////////
           });
           this.setState({ content: '' });
         } catch (error) {
@@ -76,7 +77,7 @@ export default class Feed extends Component
                         let date = new Date(chat.timestamp);
                         let time = (date.getHours() % 12) + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes() + ' ' + (date.getHours()>12?'PM':'AM');
                         date = date.toString();
-                        return <p key={chat.timestamp}>{time}: <strong>{chat.content}</strong></p>
+                        return <p key={chat.timestamp}>{time}: <strong>{chat.content}</strong> Email:<strong>{chat.useremail}</strong></p>/////////
                     })}
                 </div>
                 <form onSubmit={this.handleSubmit}>
